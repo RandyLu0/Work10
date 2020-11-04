@@ -1,6 +1,7 @@
 #include "nodes.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 struct node * new_node(int data){
     struct node *nf;
@@ -11,16 +12,15 @@ struct node * new_node(int data){
 }
 
 void print(struct node *n){
-    printf("%d\n",n->id);
+    printf("%d ",n->id);
 }
 
 void print_list(struct node *n){
-    printf("start of list\n");
     while(n){
         print(n);
         n = n->next;
     }
-    printf("end of list\n");
+    printf("\n");
 }
 
 struct node * insert_front(struct node *n, int data){
@@ -30,11 +30,14 @@ struct node * insert_front(struct node *n, int data){
 }
 
 struct node * free_list(struct node *n){
-    while(n){
+    struct node *h;
+    while(h){
+        printf("freeing: %d\n",n->id);
+        h = n->next;
         free(n);
-        n = n->next;
+        n = h;
     }
-    return NULL;
+    return h;
 }
 
 struct node * remove_node(struct node *front, int data){
@@ -45,7 +48,6 @@ struct node * remove_node(struct node *front, int data){
     }
     while(front->next){
         if(front->next->id == data){
-            free(front->next);
             front->next = front->next->next;
             return h;
         }
@@ -53,7 +55,3 @@ struct node * remove_node(struct node *front, int data){
     }
     return h;
 }
-
-
-
-
